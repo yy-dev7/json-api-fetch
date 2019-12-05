@@ -2,7 +2,7 @@
   "name": "json-api-fetch",
   "version": "0.0.1",
   "description": "基于fetch实现的JSON API标准",
-  "main": "dist/http-client.js",
+  "main": "dist/json-api-fetch.js",
   "typings": "dist/index.d.ts",
   "scripts": {
     "clean": "shx rm -rf dist && shx rm -rf lib",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mervynyang/http-client.git"
+    "url": "git+https://github.com/mervynyang/json-api-fetch.git"
   },
   "keywords": [
     "fetch",
@@ -22,9 +22,9 @@
   "author": "MervynYang",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mervynyang/http-client/issues"
+    "url": "https://github.com/mervynyang/json-api-fetch/issues"
   },
-  "homepage": "https://github.com/mervynyang/http-client#readme",
+  "homepage": "https://github.com/mervynyang/json-api-fetch#readme",
   "devDependencies": {
     "@types/jest": "^24.0.21",
     "cpr": "^3.0.1",
