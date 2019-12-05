@@ -23,7 +23,7 @@ client
 
 ## 说明
 
-改库使用的是fetch，所以如果要在低版本浏览器运行，你可能仍然需要引入 [whatwg-fetch](https://github.com/github/fetch)。
+该库使用的是fetch，所以如果要在低版本浏览器运行，你可能仍然需要引入 [whatwg-fetch](https://github.com/github/fetch)。
 
 ## 作用
 
