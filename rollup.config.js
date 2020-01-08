@@ -2,7 +2,7 @@ export default {
   input: 'lib/index.js',
 
   output: {
-    file: 'dist/HttpClient.js',
+    file: 'dist/JsonApiFetch.js',
     format: 'umd',
     name: 'HttpClient'
   },

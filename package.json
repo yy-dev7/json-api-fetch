@@ -1,8 +1,8 @@
 {
   "name": "json-api-fetch",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "基于fetch实现的JSON API标准",
-  "main": "dist/json-api-fetch.js",
+  "main": "dist/JsonApiFetch.js",
   "typings": "dist/index.d.ts",
   "scripts": {
     "clean": "shx rm -rf dist && shx rm -rf lib",
