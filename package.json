@@ -1,6 +1,6 @@
 {
   "name": "json-api-fetch",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "基于fetch实现的JSON API标准",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -8,7 +8,6 @@
     "build": "npm run clean && tsc",
     "clean": "shx rm -rf dist",
     "test": "jest --config jestconfig.json",
-    "prepublishOnly": "npm run test",
     "prepare": "npm run build"
   },
   "repository": {

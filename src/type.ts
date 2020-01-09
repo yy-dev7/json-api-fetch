@@ -6,6 +6,10 @@ export interface Payload {
   [key: string]: any,
 }
 
+export interface Header {
+  [key: string]: string,
+}
+
 export interface Configs {
   baseURL?: string,
 }

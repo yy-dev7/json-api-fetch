@@ -1,10 +1,10 @@
-import { Configs, Params, Payload, JsonApi } from './type'
+import { Configs, Params, Payload, JsonApi, Header } from './type'
 
 class JsonApiFetch {
   private useBaseURL: boolean = true;
   private configs: Configs;
   private defaultOptions: RequestInit = {};
-  private headers: Headers = new Headers();
+  private headers: Header = {};
 
   constructor(configs: Configs = {}) {
     this.configs = configs
@@ -26,7 +26,8 @@ class JsonApiFetch {
 
     return this.request(url, {
       method: 'GET',
-      headers: this.headers,
+      headers: this.getHeaders(),
+      body: undefined,
     })
   }
 
@@ -41,7 +42,8 @@ class JsonApiFetch {
 
     return await this.request(url, {
       method: 'DELETE',
-      headers: this.headers,
+      headers: this.getHeaders(),
+      body: undefined,
     })
   }
   
@@ -50,7 +52,7 @@ class JsonApiFetch {
 
     return await this.request(url, {
       method: 'POST',
-      headers: this.headers,
+      headers: this.getHeaders(),
       body: JSON.stringify(payload),
     })
   }
@@ -60,13 +62,17 @@ class JsonApiFetch {
 
     return await this.request(url, {
       method: 'PUT',
-      headers: this.headers,
+      headers: this.getHeaders(),
       body: JSON.stringify(payload),
     })
   }
 
-  appendHeader(key: string, value: string): void {
-    this.headers.append(key, value)
+  setHeader(key: string, value: string): void {
+    this.headers[key] = value
+  }
+
+  getHeaders(): Header {
+    return this.headers
   }
 
   setDefaultOptions(options: RequestInit) {
@@ -90,8 +96,8 @@ class JsonApiFetch {
   }
 
   private initHeaders() {
-    this.headers.set('Accept', 'application/json')
-    this.headers.set('Content-Type', 'application/json')
+    this.setHeader('Accept', 'application/json')
+    this.setHeader('Content-Type', 'application/json')
   }
 
   private checkStatus(res: Response) {
