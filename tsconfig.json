@@ -3,7 +3,7 @@
     "target": "es5",
     "sourceMap": false,
     "declaration": true,
-    "module": "es2015",
+    "module": "umd",
     "removeComments": false,
     "moduleResolution": "node",
     "strict": true,
@@ -12,19 +12,20 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "stripInternal": true,
+    "esModuleInterop": true,
     "lib": [
       "es6",
       "dom"
     ],
     "types": ["jest"],
-    "outDir": "./lib"
+    "outDir": "./dist"
   },
-  
   "include": [
     "src"
   ],
   "exclude": [
     "node_modules",
-    "test"
+    "__tests__"
   ]
 }
+ 

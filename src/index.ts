@@ -1,6 +1,6 @@
 import { Configs, Params, Payload, JsonApi } from './type'
 
-class HttpClient {
+class JsonApiFetch {
   private useBaseURL: boolean = true;
   private configs: Configs;
   private defaultOptions: RequestInit = {};
@@ -12,7 +12,7 @@ class HttpClient {
   }
 
   static create(configs: Configs = {}) {
-    return new HttpClient(configs)
+    return new JsonApiFetch(configs)
   }
 
   async request(url: string, options: RequestInit): Promise<JsonApi> {
@@ -24,74 +24,45 @@ class HttpClient {
   async get(path: string, params?: Params): Promise<JsonApi> {
     const url = this.getFullUrl(path, params)
 
-    try {
-      const res = await this.request(url, {
-        method: 'GET',
-        headers: this.headers,
-      })
-
-      return res
-    } catch (err) {
-      throw new Error(err)
-    }
+    return this.request(url, {
+      method: 'GET',
+      headers: this.headers,
+    })
   }
 
   async sampleGet(path: string, params?: Params) {
     const url = this.getFullUrl(path, params)
 
-    try {
-      const res = await fetch(url)
-      return res
-    } catch (err) {
-      throw new Error(err)
-    }
+    return await fetch(url)
   }
 
   async delete(path: string, params?: Params) {
     const url = this.getFullUrl(path, params)
 
-    try {
-      const res = await this.request(url, {
-        method: 'DELETE',
-        headers: this.headers,
-      })
-
-      return res
-    } catch (err) {
-      throw new Error(err)
-    }
+    return await this.request(url, {
+      method: 'DELETE',
+      headers: this.headers,
+    })
   }
   
   async post(path: string, payload: Payload) {
     const url = this.getFullUrl(path)
 
-    try {
-      const res = await this.request(url, {
-        method: 'POST',
-        headers: this.headers,
-        body: JSON.stringify(payload),
-      })
-
-      return res
-    } catch (err) {
-      throw new Error(err)
-    }
+    return await this.request(url, {
+      method: 'POST',
+      headers: this.headers,
+      body: JSON.stringify(payload),
+    })
   }
 
   async put(path: string, payload: Payload) {
     const url = this.getFullUrl(path)
 
-    try {
-      const res = await this.request(url, {
-        method: 'PUT',
-        headers: this.headers,
-        body: JSON.stringify(payload),
-      })
-
-      return res
-    } catch (err) {
-      throw new Error(err)
-    }
+    return await this.request(url, {
+      method: 'PUT',
+      headers: this.headers,
+      body: JSON.stringify(payload),
+    })
   }
 
   appendHeader(key: string, value: string): void {
@@ -100,6 +71,22 @@ class HttpClient {
 
   setDefaultOptions(options: RequestInit) {
     this.defaultOptions = options
+  }
+
+  getFullUrl(path: string, params?: Params): string {
+    const paramsString = params ? this.serializeObject(params) : ''
+
+    if (this.useBaseURL && !this.isUrl) {
+      return this.configs.baseURL + path + paramsString
+    }
+
+    return path + paramsString
+  }
+
+  isUrl(url: string): boolean {
+    const protocol = url.split('://')[0].toLowerCase()
+
+    return protocol ? protocol.indexOf('http') > -1 : false
   }
 
   private initHeaders() {
@@ -120,16 +107,6 @@ class HttpClient {
     return res.json().then((err) => { throw err })
   }
 
-  private getFullUrl(path: string, params?: Params): string {
-    const paramsString = params ? this.serializeObject(params) : ''
-
-    if (this.useBaseURL && !this.isUrl) {
-      return this.configs.baseURL + path + paramsString
-    }
-
-    return path + paramsString
-  }
-
   private serializeObject(obj: Params): string {
     if (obj && Object.keys(obj).length) {
       return '?' + Object.keys(obj)
@@ -145,12 +122,6 @@ class HttpClient {
 
     return ''
   }
-
-  private isUrl(url: string): boolean {
-    const protocol = url.split('://')[0].toLowerCase()
-
-    return protocol ? protocol.indexOf('http') > -1 : false
-  }
 }
 
-export default HttpClient
+export default JsonApiFetch

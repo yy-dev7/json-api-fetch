@@ -1,14 +1,14 @@
 {
   "name": "json-api-fetch",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "基于fetch实现的JSON API标准",
-  "main": "dist/JsonApiFetch.js",
+  "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "clean": "shx rm -rf dist && shx rm -rf lib",
-    "dev": "tsc -w",
+    "build": "npm run clean && tsc",
+    "clean": "shx rm -rf dist",
     "test": "jest --config jestconfig.json",
-    "build": "npm run clean && tsc && cpr lib dist --filter=\\.js$ && rollup -c",
+    "prepublishOnly": "npm run test",
     "prepare": "npm run build"
   },
   "repository": {
@@ -28,11 +28,9 @@
   "devDependencies": {
     "@types/jest": "^24.0.21",
     "cpr": "^3.0.1",
-    "express": "^4.17.1",
     "jest": "^24.9.0",
-    "rollup": "^1.27.8",
     "shx": "^0.3.2",
-    "ts-jest": "^24.2.0",
+    "ts-jest": "^24.1.0",
     "typescript": "^3.6.4"
   }
 }
