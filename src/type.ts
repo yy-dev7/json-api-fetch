@@ -6,7 +6,7 @@ export interface Payload {
   [key: string]: any,
 }
 
-export interface Header {
+export interface Headers {
   [key: string]: string,
 }
 

@@ -1,10 +1,10 @@
-import { Configs, Params, Payload, JsonApi, Header } from './type'
+import { Configs, Params, Payload, JsonApi, Headers } from './type'
 
 class JsonApiFetch {
   private useBaseURL: boolean = true;
   private configs: Configs;
   private defaultOptions: RequestInit = {};
-  private headers: Header = {};
+  private headers: Headers = {};
 
   constructor(configs: Configs = {}) {
     this.configs = configs
@@ -16,9 +16,15 @@ class JsonApiFetch {
   }
 
   async request(url: string, options: RequestInit): Promise<JsonApi> {
-    const response = await fetch(url, Object.assign(this.defaultOptions, options))
+    const response = await this.fetch(url, options)
 
     return this.checkStatus(response)
+  }
+
+  async fetch(url: string, options: RequestInit): Promise<Response> {
+    const response = await fetch(url, Object.assign(this.defaultOptions, options))
+
+    return response
   }
 
   async get(path: string, params?: Params): Promise<JsonApi> {
@@ -71,8 +77,16 @@ class JsonApiFetch {
     this.headers[key] = value
   }
 
-  getHeaders(): Header {
+  setHeaders(headers: Headers) {
+    this.headers = headers
+  }
+
+  getHeaders(): Headers {
     return this.headers
+  }
+
+  getHeader(key: string): string {
+    return this.headers[key]
   }
 
   setDefaultOptions(options: RequestInit) {
