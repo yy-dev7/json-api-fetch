@@ -1,4 +1,4 @@
-import { Configs, Params, Payload, JsonApi, Headers } from './type'
+import { Configs, Params, Payload, JsonApi, JsonError, Headers } from './type'
 
 class JsonApiFetch {
   private useBaseURL: boolean = true;
@@ -15,19 +15,25 @@ class JsonApiFetch {
     return new JsonApiFetch(configs)
   }
 
-  async request(url: string, options: RequestInit): Promise<JsonApi> {
+  async request(url: string, options: RequestInit): Promise<JsonApi>{
     const response = await this.fetch(url, options)
+
+    if (this.configs.errorInterceptor) {
+      return this.checkStatus(response)?.catch(
+        (error: JsonError) => {
+          this.configs.errorInterceptor?.call(this, error)
+        },
+      )
+    }
 
     return this.checkStatus(response)
   }
 
   async fetch(url: string, options: RequestInit): Promise<Response> {
-    const response = await fetch(url, Object.assign(this.defaultOptions, options))
-
-    return response
+    return fetch(url, Object.assign(this.defaultOptions, options))
   }
 
-  async get(path: string, params?: Params): Promise<JsonApi> {
+  get(path: string, params?: Params): Promise<JsonApi> {
     const url = this.getFullUrl(path, params)
 
     return this.request(url, {
@@ -37,26 +43,26 @@ class JsonApiFetch {
     })
   }
 
-  async sampleGet(path: string, params?: Params) {
+  sampleGet(path: string, params?: Params) {
     const url = this.getFullUrl(path, params)
 
-    return await fetch(url)
+    return fetch(url)
   }
 
-  async delete(path: string, params?: Params) {
+  delete(path: string, params?: Params) {
     const url = this.getFullUrl(path, params)
 
-    return await this.request(url, {
+    return this.request(url, {
       method: 'DELETE',
       headers: this.getHeaders(),
       body: undefined,
     })
   }
   
-  async post(path: string, payload: Payload) {
+  post(path: string, payload: Payload) {
     const url = this.getFullUrl(path)
 
-    return await this.request(url, {
+    return this.request(url, {
       method: 'POST',
       headers: this.getHeaders(),
       body: JSON.stringify(payload),
@@ -66,7 +72,7 @@ class JsonApiFetch {
   async put(path: string, payload: Payload) {
     const url = this.getFullUrl(path)
 
-    return await this.request(url, {
+    return this.request(url, {
       method: 'PUT',
       headers: this.getHeaders(),
       body: JSON.stringify(payload),

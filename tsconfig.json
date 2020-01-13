@@ -3,7 +3,7 @@
     "target": "es5",
     "sourceMap": false,
     "declaration": true,
-    "module": "umd",
+    "module": "CommonJS",
     "removeComments": false,
     "moduleResolution": "node",
     "strict": true,

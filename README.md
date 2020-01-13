@@ -12,7 +12,8 @@ npm install json-api-fetch
 import JsonApiFetch from 'json-api-fetch'
 
 const client = JsonApiFetch.create({
-  baseUrl: 'http://example.com'
+  baseUrl: 'http://example.com',
+  errorInterceptor: (err) => {}
 })
 
 client
