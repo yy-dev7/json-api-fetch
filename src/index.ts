@@ -17,16 +17,15 @@ class JsonApiFetch {
 
   async request(url: string, options: RequestInit): Promise<JsonApi>{
     const response = await this.fetch(url, options)
+    const promise = this.checkStatus(response)
 
     if (this.configs.errorInterceptor) {
-      return this.checkStatus(response)?.catch(
-        (error: JsonError) => {
-          this.configs.errorInterceptor?.call(this, error)
-        },
-      )
+      promise?.catch((error: JsonError) => {
+        this.configs.errorInterceptor?.call(this, error)
+      })
     }
 
-    return this.checkStatus(response)
+    return promise
   }
 
   async fetch(url: string, options: RequestInit): Promise<Response> {
