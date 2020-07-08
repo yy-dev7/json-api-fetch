@@ -31,5 +31,5 @@ export interface JsonError {
 
 export interface Configs {
   baseURL?: string,
-  errorInterceptor?: (error: JsonError) => {},
+  errorInterceptor?: (error: JsonError) => void,
 }
