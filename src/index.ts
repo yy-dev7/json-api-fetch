@@ -101,7 +101,7 @@ class JsonApiFetch {
   getFullUrl(path: string, params?: Params): string {
     const paramsString = params ? this.serializeObject(params) : ''
 
-    if (this.useBaseURL && !this.isUrl(path)) {
+    if (this.useBaseURL && !this.isUrl(path) && this.configs.baseURL) {
       return this.configs.baseURL + path + paramsString
     }
 
