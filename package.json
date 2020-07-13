@@ -1,6 +1,6 @@
 {
   "name": "json-api-fetch",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "基于fetch实现的JSON API标准",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",

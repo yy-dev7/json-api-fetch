@@ -58,23 +58,23 @@ class JsonApiFetch {
     })
   }
   
-  post(path: string, payload: Payload) {
+  post(path: string, payload?: Payload) {
     const url = this.getFullUrl(path)
 
     return this.request(url, {
       method: 'POST',
       headers: this.getHeaders(),
-      body: JSON.stringify(payload),
+      body: payload ? JSON.stringify(payload) : undefined,
     })
   }
 
-  async put(path: string, payload: Payload) {
+  async put(path: string, payload?: Payload) {
     const url = this.getFullUrl(path)
 
     return this.request(url, {
       method: 'PUT',
       headers: this.getHeaders(),
-      body: JSON.stringify(payload),
+      body: payload ? JSON.stringify(payload) : undefined,
     })
   }
 
