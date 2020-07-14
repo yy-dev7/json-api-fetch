@@ -48,13 +48,13 @@ class JsonApiFetch {
     return fetch(url)
   }
 
-  delete(path: string, params?: Params) {
+  delete(path: string, params?: Params, payload?: Payload) {
     const url = this.getFullUrl(path, params)
 
     return this.request(url, {
       method: 'DELETE',
       headers: this.getHeaders(),
-      body: undefined,
+      body: payload ? JSON.stringify(payload) : undefined,
     })
   }
   
@@ -68,7 +68,7 @@ class JsonApiFetch {
     })
   }
 
-  async put(path: string, payload?: Payload) {
+  put(path: string, payload?: Payload) {
     const url = this.getFullUrl(path)
 
     return this.request(url, {
