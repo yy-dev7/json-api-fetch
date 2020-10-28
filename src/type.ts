@@ -12,7 +12,7 @@ export interface Headers {
 
 export interface JsonApi {
   data?: any,
-  errors?: JsonError,
+  error?: JsonError,
   meta?: object,
   links?: object,
   included?: any,
@@ -31,5 +31,5 @@ export interface JsonError {
 
 export interface Configs {
   baseURL?: string,
-  errorInterceptor?: (error: JsonError | null) => void,
+  errorInterceptor?: (errorJson: JsonApi) => void,
 }

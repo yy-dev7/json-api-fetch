@@ -20,8 +20,8 @@ class JsonApiFetch {
     const promise = this.checkStatus(response)
 
     if (this.configs.errorInterceptor) {
-      promise?.catch((error: JsonApi) => {
-        this.configs.errorInterceptor?.call(this, error?.errors || null)
+      promise?.catch((errorJson: JsonApi) => {
+        this.configs.errorInterceptor?.call(this, errorJson)
       })
     }
 
