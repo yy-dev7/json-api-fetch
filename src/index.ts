@@ -1,4 +1,4 @@
-import { Configs, Params, Payload, JsonApi, JsonError, Headers } from './type'
+import { Configs, Params, Payload, JsonApi, Headers } from './type'
 
 class JsonApiFetch {
   private useBaseURL: boolean = true;
@@ -21,7 +21,7 @@ class JsonApiFetch {
 
     if (this.configs.errorInterceptor) {
       promise?.catch((errorJson: JsonApi) => {
-        this.configs.errorInterceptor?.call(this, errorJson)
+        this.configs.errorInterceptor?.call(this, errorJson, url)
       })
     }
 
