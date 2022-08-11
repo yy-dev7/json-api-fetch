@@ -1,6 +1,6 @@
 import { Configs, Params, Payload, JsonApi, Headers } from './type'
 
-class JsonApiFetch {
+export default class JsonApiFetch {
   private useBaseURL: boolean = true;
   private configs: Configs;
   private defaultOptions: RequestInit = {};
@@ -149,4 +149,10 @@ class JsonApiFetch {
   }
 }
 
-export default JsonApiFetch
+export {
+  Configs, 
+  Params, 
+  Payload, 
+  JsonApi, 
+  Headers
+}
