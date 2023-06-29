@@ -1,158 +1,160 @@
-import { Configs, Params, Payload, JsonApi, Headers } from './type'
+import { Configs, Params, Payload, JsonApi, Headers } from './type';
 
 export default class JsonApiFetch {
-  private useBaseURL: boolean = true;
+  static create(configs: Configs = {}) {
+    return new JsonApiFetch(configs);
+  }
+
+  private useBaseURL = true;
   private configs: Configs;
   private defaultOptions: RequestInit = {};
   private headers: Headers = {};
 
   constructor(configs: Configs = {}) {
-    this.configs = configs
-    this.initHeaders()
+    this.configs = configs;
+    this.initHeaders();
   }
 
-  static create(configs: Configs = {}) {
-    return new JsonApiFetch(configs)
-  }
-
-  async request(url: string, options: RequestInit): Promise<JsonApi>{
-    const response = await this.fetch(url, options)
-    const promise = this.checkStatus(response)
+  async request(url: string, options: RequestInit): Promise<JsonApi> {
+    const response = await this.fetch(url, options);
+    const promise = this.checkStatus(response);
 
     if (this.configs.errorInterceptor) {
       promise?.catch((errorJson: JsonApi) => {
-        this.configs.errorInterceptor?.call(this, errorJson, url)
-      })
+        this.configs.errorInterceptor?.call(this, errorJson, url);
+      });
     }
 
-    return promise
+    return promise;
   }
 
   async fetch(url: string, options: RequestInit): Promise<Response> {
-    return fetch(url, Object.assign(this.defaultOptions, options))
+    return fetch(url, Object.assign(this.defaultOptions, options));
   }
 
   get(path: string, params?: Params): Promise<JsonApi> {
-    const url = this.getFullUrl(path, params)
+    const url = this.getFullUrl(path, params);
 
     return this.request(url, {
       method: 'GET',
       headers: this.getHeaders(),
       body: undefined,
-    })
+    });
   }
 
   sampleGet(path: string, params?: Params) {
-    const url = this.getFullUrl(path, params)
+    const url = this.getFullUrl(path, params);
 
-    return fetch(url)
+    return fetch(url);
   }
 
   delete(path: string, params?: Params, payload?: Payload) {
-    const url = this.getFullUrl(path, params)
+    const url = this.getFullUrl(path, params);
 
     return this.request(url, {
       method: 'DELETE',
       headers: this.getHeaders(),
       body: payload ? JSON.stringify(payload) : undefined,
-    })
+    });
   }
-  
+
   post(path: string, payload?: Payload) {
-    const url = this.getFullUrl(path)
+    const url = this.getFullUrl(path);
 
     return this.request(url, {
       method: 'POST',
       headers: this.getHeaders(),
       body: payload ? JSON.stringify(payload) : undefined,
-    })
+    });
   }
 
   put(path: string, payload?: Payload) {
-    const url = this.getFullUrl(path)
+    const url = this.getFullUrl(path);
 
     return this.request(url, {
       method: 'PUT',
       headers: this.getHeaders(),
       body: payload ? JSON.stringify(payload) : undefined,
-    })
+    });
   }
 
   setHeader(key: string, value: string): void {
-    this.headers[key] = value
+    this.headers[key] = value;
   }
 
   setHeaders(headers: Headers) {
-    this.headers = headers
+    this.headers = headers;
   }
 
   getHeaders(): Headers {
-    return this.headers
+    return this.headers;
   }
 
   getHeader(key: string): string {
-    return this.headers[key]
+    return this.headers[key];
   }
 
   setDefaultOptions(options: RequestInit) {
-    this.defaultOptions = options
+    this.defaultOptions = options;
   }
 
   getFullUrl(path: string, params?: Params): string {
-    const paramsString = params ? this.serializeObject(params) : ''
+    const paramsString = params ? this.serializeObject(params) : '';
 
     if (this.useBaseURL && !this.isUrl(path) && this.configs.baseURL) {
-      return this.configs.baseURL + path + paramsString
+      return this.configs.baseURL + path + paramsString;
     }
 
-    return path + paramsString
+    return path + paramsString;
   }
 
   isUrl(url: string): boolean {
-    const protocol = url.split('://')[0].toLowerCase()
+    const protocol = url.split('://')[0].toLowerCase();
 
-    return protocol ? protocol.indexOf('http') > -1 : false
+    return protocol ? protocol.indexOf('http') > -1 : false;
   }
 
   private initHeaders() {
-    this.setHeader('Accept', 'application/json')
-    this.setHeader('Content-Type', 'application/json')
+    this.setHeader('Accept', 'application/json');
+    this.setHeader('Content-Type', 'application/json');
   }
 
   private checkStatus(res: Response) {
     // handle no content
     if (res.status === 204) {
-      return null
+      return null;
     }
 
     if (res.ok) {
-      return res.json()
+      return res.json();
     }
 
-    return res.json().then((err) => { throw err })
+    return res.json().then((err) => {
+      throw err;
+    });
   }
 
   private serializeObject(obj: Params): string {
     if (obj && Object.keys(obj).length) {
-      return '?' + Object.keys(obj)
+      return `?${Object.keys(obj)
         .map((key) => {
           const value = typeof obj[key] === 'object'
             ? JSON.stringify(obj[key])
-            : obj[key]
+            : obj[key];
 
-          return `${key}=${encodeURIComponent(value)}`
+          return `${key}=${encodeURIComponent(value)}`;
         })
-        .join('&')
+        .join('&')}`;
     }
 
-    return ''
+    return '';
   }
 }
 
 export {
-  Configs, 
-  Params, 
-  Payload, 
-  JsonApi, 
-  Headers
-}
+  Configs,
+  Params,
+  Payload,
+  JsonApi,
+  Headers,
+};
