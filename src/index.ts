@@ -1,6 +1,10 @@
 import { Configs, Params, Payload, JsonApi, Headers } from './type';
 
 export default class JsonApiFetch {
+  /**
+   * @deprecated This method is deprecated and should not be used.
+   * Use the newMethod() instead.
+   */
   static create(configs: Configs = {}) {
     return new JsonApiFetch(configs);
   }
@@ -151,7 +155,13 @@ export default class JsonApiFetch {
   }
 }
 
+function createInstance(configs: Configs = {}) {
+  return new JsonApiFetch(configs);
+}
+
 export {
+  createInstance,
+  JsonApiFetch,
   Configs,
   Params,
   Payload,

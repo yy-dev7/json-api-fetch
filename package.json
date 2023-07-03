@@ -1,6 +1,6 @@
 {
   "name": "json-api-fetch",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "基于fetch实现的JSON API标准",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/mervynyang/json-api-fetch#readme",
   "devDependencies": {
+    "@swc/core": "^1.3.67",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/parser": "^5.60.1",
     "eslint": "^8.43.0",

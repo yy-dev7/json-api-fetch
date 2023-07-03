@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "target": "ESNext"
+  },
+  "include": [
+    "src"
+  ]
+}
